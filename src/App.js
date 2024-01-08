@@ -1,6 +1,7 @@
 import {
   Center,
   ChakraProvider,
+  Flex,
   Textarea,
   useEditable,
 } from "@chakra-ui/react";
@@ -8,6 +9,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ShowCurrentCharacter } from "./Typing/ShowCurrentChar";
 import { BuiltByDeveloper } from "./Footer/Footer";
+import { ShowTimer } from "./Typing/ShowTimer";
 function fillSpace(arr) {
   let newArray = arr.map((element) =>
     element === " " ? `\u2000` : element.toLowerCase()
@@ -554,10 +556,14 @@ function ShowText({ count, setCount }) {
           return (
             <Text
               key={i}
+              display={"flex"}
               id={`_${i}`}
               opacity={count >= i ? 0.7 : 0.2}
+              alignItems={"center"}
+              justifyContent={"center"}
+              fontSize={count == i ? "45px" : "42px"}
+              fontWeight={count == i ? "bold" : "regular"}
               color={"black"}
-              fontSize={"42px"}
               fontFamily={"JetBrains Mono"}
             >
               {ele}
@@ -575,9 +581,18 @@ function App() {
   return (
     <>
       <Box>
-        <Center flexDir={"column"} w="100%" h="100vh">
+        <Center flexDir={"column"} w="100%" h="97.7vh">
+          <Center
+            justifyContent={"end"}
+            alignItems={"flex-end"}
+            h="200px"
+          ></Center>
           <Center h="70vh" justifyContent={"end"} alignItems={"flex-end"}>
-            <ShowCurrentCharacter arr={word_array} count={count} />
+            <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+              <ShowTimer />
+
+              <ShowCurrentCharacter arr={word_array} count={count} />
+            </Flex>
           </Center>
           <Center w="100%" h="100vh" alignItems={"start"}>
             <Box overflow={"hidden"} m="10px" pos={"relative "}>
@@ -586,7 +601,7 @@ function App() {
           </Center>
         </Center>
       </Box>
-      <BuiltByDeveloper/>
+      <BuiltByDeveloper />
     </>
   );
 }
