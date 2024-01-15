@@ -462,7 +462,7 @@ function ShowText({ count, setCount }) {
     setCursor((cursor) => cursor + 7);
   };
   const decreaseCurosr = () => {
-    setCursor((cursor) => cursor - 28);
+    setCursor((cursor) => cursor - 29);
   };
   const decreaseCount = () => {
     setCount((count_) => count_ - 1);
@@ -547,10 +547,11 @@ function ShowText({ count, setCount }) {
         display={"flex"}
         flexDir={"row"}
         position={"relative"}
+        // transform={("translateX(" + cursor + "px)").toString()}
         left={(cursor + "px").toString()}
         // opacity={op}
         overflow={"visible"}
-        transition="left 1s linear"
+        transition="left 0.5s ease-out"
         // flexWrap={"wrap"}
       >
         {word_array.map((ele, i) => {
@@ -578,14 +579,14 @@ function ShowText({ count, setCount }) {
 
 function App() {
   const [count, setCount] = useState(-1);
-  const [timeLock,setTimeLock] = useState(false);
+  const [timeLock, setTimeLock] = useState(false);
 
-  useEffect(()=>{
-    if(count != -1 && !timeLock){
-      setTimeLock(true)
-      console.log("set false")
+  useEffect(() => {
+    if (count != -1 && !timeLock) {
+      setTimeLock(true);
+      console.log("set false");
     }
-  },[count])
+  }, [count]);
   return (
     <>
       <Box>
@@ -596,22 +597,29 @@ function App() {
             h="200px"
           ></Center>
           <Center h="70vh" justifyContent={"end"} alignItems={"flex-end"}>
-            <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-              <ShowTimer flag={timeLock}/>
+            <Flex
+              flexDirection={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <ShowTimer flag={timeLock} />
 
               <ShowCurrentCharacter arr={word_array} count={count} />
             </Flex>
           </Center>
           <Center w="100%" h="100vh" alignItems={"start"}>
-            <Box overflow={"hidden"} m="10px" pos={"relative "}>
-              <ShowText count={count} setCount={setCount} setTimeLock={setTimeLock}/>
+            <Box overflow={"hidden"} m="10px" pos={"relative"}>
+              <ShowText
+                count={count}
+                setCount={setCount}
+                setTimeLock={setTimeLock}
+              />
             </Box>
           </Center>
         </Center>
       </Box>
       <BuiltByDeveloper />
-      <ResultComponent flag={true}/>
-
+      <ResultComponent flag={true} />
     </>
   );
 }
