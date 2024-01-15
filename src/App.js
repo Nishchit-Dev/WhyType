@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { ShowCurrentCharacter } from "./Typing/ShowCurrentChar";
 import { BuiltByDeveloper } from "./Footer/Footer";
 import { ShowTimer } from "./Typing/ShowTimer";
+import { ResultComponent } from "./Result/resultComponents";
 function fillSpace(arr) {
   let newArray = arr.map((element) =>
     element === " " ? `\u2000` : element.toLowerCase()
@@ -577,7 +578,14 @@ function ShowText({ count, setCount }) {
 
 function App() {
   const [count, setCount] = useState(-1);
+  const [timeLock,setTimeLock] = useState(false);
 
+  useEffect(()=>{
+    if(count != -1 && !timeLock){
+      setTimeLock(true)
+      console.log("set false")
+    }
+  },[count])
   return (
     <>
       <Box>
@@ -589,19 +597,21 @@ function App() {
           ></Center>
           <Center h="70vh" justifyContent={"end"} alignItems={"flex-end"}>
             <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-              <ShowTimer />
+              <ShowTimer flag={timeLock}/>
 
               <ShowCurrentCharacter arr={word_array} count={count} />
             </Flex>
           </Center>
           <Center w="100%" h="100vh" alignItems={"start"}>
             <Box overflow={"hidden"} m="10px" pos={"relative "}>
-              <ShowText count={count} setCount={setCount} />
+              <ShowText count={count} setCount={setCount} setTimeLock={setTimeLock}/>
             </Box>
           </Center>
         </Center>
       </Box>
       <BuiltByDeveloper />
+      <ResultComponent flag={true}/>
+
     </>
   );
 }
