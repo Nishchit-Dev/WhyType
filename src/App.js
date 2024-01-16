@@ -11,6 +11,7 @@ import { ShowCurrentCharacter } from "./Typing/ShowCurrentChar";
 import { BuiltByDeveloper } from "./Footer/Footer";
 import { ShowTimer } from "./Typing/ShowTimer";
 import { ResultComponent } from "./Result/resultComponents";
+import { ChakraCustomTheme } from "./ChakraTheme/ChakraTheme";
 function fillSpace(arr) {
   let newArray = arr.map((element) =>
     element === " " ? `\u2000` : element.toLowerCase()
@@ -561,17 +562,18 @@ function ShowText({ count, setCount }) {
               key={i}
               display={"flex"}
               id={`_${i}`}
-              opacity={count >= i ? 0.7 : 0.2}
+              opacity={count+1 >= i ? 0.7 : 0.2}
               alignItems={"center"}
               justifyContent={"center"}
               fontSize={{
-                md: count == i ? "30px" : "28px",
-                lg: count == i ? "35px" : "33px",
-                xl: count == i ? "40px" : "38px",
-                "2xl": count == i ? "45px" : "42px",
-                // "3xl": count == i ? "55px" : "53px",
+                md: count == i ? "35px" : "33px",
+                lg: count == i ? "37px" : "35px",
+                xl: count == i ? "39px" : "37px",
+                "2xl": count == i ? "41px" : "39px",
+                "3xl": count == i ? "43px" : "41px",
+                xxl: count == i ? "45px" : "43px",
               }}
-              fontWeight={count == i ? "bold" : "regular"}
+              fontWeight={count + 1 == i && count < 9999? "bold" : "regular"}
               color={"black"}
               fontFamily={"JetBrains Mono"}
             >
@@ -633,7 +635,7 @@ function App() {
 function ChakraWapper() {
   return (
     <>
-      <ChakraProvider>
+      <ChakraProvider theme={ChakraCustomTheme()}>
         <App />
       </ChakraProvider>
     </>
