@@ -5,7 +5,7 @@ export const TimerStatsSlice = createSlice({
   initialState: {
     timerCount: -1,
     ActiveFor: 0,
-    lock: false,
+    TimerLock: false,
   },
   reducers: {
     increaseTimerCount: (states, action) => {
@@ -15,7 +15,15 @@ export const TimerStatsSlice = createSlice({
       states.ActiveFor = action.payload;
     },
     setLock: (states, action) => {
-      states.lock = !states.lock;
+      states.TimerLock = !states.TimerLock;
     },
+    setAll:(states,action)=>{
+      states.ActiveFor = action.payload.ActiveFor
+      states.TimerLock = action.payload.TimerLock
+    } 
   },
 });
+
+export const {increaseTimerCount,setActiveFor,setLock,setAll} = TimerStatsSlice.actions
+
+export default TimerStatsSlice.reducer

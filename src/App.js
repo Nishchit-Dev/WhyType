@@ -12,6 +12,17 @@ import { BuiltByDeveloper } from "./Footer/Footer";
 import { ShowTimer } from "./Typing/ShowTimer";
 import { ResultComponent } from "./Result/resultComponents";
 import { ChakraCustomTheme } from "./ChakraTheme/ChakraTheme";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  setTypingActiveStatus,
+  typeStatSlice,
+} from "./Store/Slices/typingStatsSlice";
+import {
+  PopTypedLetter,
+  PushedTypedLetter,
+} from "./Store/Slices/TypingSenSlice";
+import { HeaderNav } from "./Header/Header";
 function fillSpace(arr) {
   let newArray = arr.map((element) =>
     element === " " ? `\u2000` : element.toLowerCase()
@@ -456,6 +467,11 @@ let word_array = [
   "n",
 ];
 function ShowText({ count, setCount }) {
+  const TypingStat = useSelector((states) => {
+    return states.typeStatsReducer;
+  });
+  const dispatch = useDispatch();
+
   const [cursor, setCursor] = useState(650);
   const MaxLimit = 650;
 
@@ -473,69 +489,71 @@ function ShowText({ count, setCount }) {
     setCount((count_) => count_ + 1);
   };
 
-  useEffect(() => {
-    console.log("count changed ->", count);
-  }, [count]);
-
   word_array = fillSpace(word_array);
 
   useEffect(() => {
     const handleEvent = (event) => {
-      console.log("key -> ", event.key);
-      if (event.key == "Backspace") {
-        console.log(event.key);
-        if (MaxLimit > cursor && count >= 0) {
-          document.querySelectorAll(`#_${count + 1}`).forEach((element) => {
-            element.style.color = `Black`;
-          });
-          increaseCurosr();
-          decreaseCount();
-        }
-      } else {
-        if (event.key.length === 1) {
-          console.log("Length one");
-          if (event.key == ` `) {
-            console.log("space press->", word_array[count + 1]);
-            if (word_array[count + 1] == "\u2000") {
-              console.log("Matched key");
-              increaseCount();
-              console.log(event.key);
-              increaseCurosr();
-            }
-          } else {
-            if (
-              (event.key.charCodeAt(0) >= 65 &&
-                event.key.charCodeAt(0) <= 90) ||
-              (event.key.charCodeAt(0) >= 95 && event.key.charCodeAt(0) <= 122)
-            ) {
-              console.log("count -> ", count);
-              console.log("key -> ", event.key);
-              console.log("word_array[count + 1] -> ", word_array[count]);
+      // console.log("key -> ", event.key);
+      if (!TypingStat.isTypingActive)
+        if (event.key == "Backspace") {
+          if (MaxLimit > cursor && count >= 0) {
+            document.querySelectorAll(`#_${count + 1}`).forEach((element) => {
+              element.style.color = `Black`;
+            });
+            dispatch(PopTypedLetter());
+            increaseCurosr();
+            decreaseCount();
+          }
+        } else {
+          if (event.key.length === 1) {
+            if (event.key == ` `) {
+              // console.log("space press->", word_array[count + 1]);
+              if (word_array[count + 1] == "\u2000") {
+                dispatch(PushedTypedLetter(event.key));
 
-              if (word_array[count + 1] == event.key) {
-                console.log("Matched key");
-                document
-                  .querySelectorAll(`#_${count + 1}`)
-                  .forEach((element) => {
-                    element.style.color = `Black`;
-                  });
                 increaseCount();
-                console.log(event.key);
-                decreaseCurosr();
-              } else {
-                document
-                  .querySelectorAll(`#_${count + 1}`)
-                  .forEach((element) => {
-                    element.style.color = `#E94B3E`;
-                  });
+                // console.log(event.key);
+                increaseCurosr();
+              }
+            } else {
+              if (
+                (event.key.charCodeAt(0) >= 65 &&
+                  event.key.charCodeAt(0) <= 90) ||
+                (event.key.charCodeAt(0) >= 95 &&
+                  event.key.charCodeAt(0) <= 122)
+              ) {
+                // console.log("count -> ", count);
+                // console.log("key -> ", event.key);
+                // console.log("word_array[count + 1] -> ", word_array[count]);
+
+                if (word_array[count + 1] == event.key) {
+                  // console.log("Matched key");
+                  document
+                    .querySelectorAll(`#_${count + 1}`)
+                    .forEach((element) => {
+                      element.style.color = `Black`;
+                    });
+                  increaseCount();
+                  // console.log(event.key);
+                  decreaseCurosr();
+                  dispatch(PushedTypedLetter(event.key));
+                } else {
+                  document
+                    .querySelectorAll(`#_${count + 1}`)
+                    .forEach((element) => {
+                      element.style.color = `#E94B3E`;
+                    });
+                }
               }
             }
           }
         }
-      }
     };
     window.addEventListener("keydown", handleEvent);
 
+    if (TypingStat.isTypingActive) {
+      window.removeEventListener("keydown", handleEvent);
+    }
     return () => {
       window.removeEventListener("keydown", handleEvent);
     };
@@ -562,7 +580,7 @@ function ShowText({ count, setCount }) {
               key={i}
               display={"flex"}
               id={`_${i}`}
-              opacity={count+1 >= i ? 0.7 : 0.2}
+              opacity={count + 1 >= i ? 0.7 : 0.2}
               alignItems={"center"}
               justifyContent={"center"}
               fontSize={{
@@ -573,7 +591,7 @@ function ShowText({ count, setCount }) {
                 "3xl": count == i ? "43px" : "41px",
                 xxl: count == i ? "45px" : "43px",
               }}
-              fontWeight={count + 1 == i && count < 9999? "bold" : "regular"}
+              fontWeight={count + 1 == i && count < 9999 ? "bold" : "regular"}
               color={"black"}
               fontFamily={"JetBrains Mono"}
             >
@@ -593,11 +611,14 @@ function App() {
   useEffect(() => {
     if (count != -1 && !timeLock) {
       setTimeLock(true);
+
       console.log("set false");
     }
   }, [count]);
   return (
     <>
+      <HeaderNav />
+
       <Box>
         <Center flexDir={"column"} w="100%" h="97.7vh">
           <Center
@@ -628,7 +649,7 @@ function App() {
         </Center>
       </Box>
       <BuiltByDeveloper />
-      <ResultComponent flag={true} />
+      <ResultComponent />
     </>
   );
 }

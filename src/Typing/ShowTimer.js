@@ -1,21 +1,36 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ResultComponent } from "../Result/resultComponents";
+import { useDispatch } from "react-redux";
+import { setTypingActiveStatus } from "../Store/Slices/typingStatsSlice";
+import {
+  increaseTimerCount,
+  setActiveFor,
+  setAll,
+} from "../Store/Slices/TimerStatsSlice";
 
 export const ShowTimer = ({ flag }) => {
   const [active, setActive] = useState("one");
-  const [countDown, setCountDown] = useState(0);
+
+  const dispatch = useDispatch();
   const [timer, setTimer] = useState({
     time: 0,
     activeFor: 30,
     lock: false,
   });
+  useEffect(() => {
+    dispatch(setActiveFor(30));
+  }, []);
 
   useEffect(() => {
+    if (timer.time >= timer.activeFor) {
+      dispatch(setTypingActiveStatus(true));
+    }
     if (flag && timer.time < timer.activeFor) {
       const interval = setInterval(() => {
         if (timer.time < timer.activeFor) {
           setTimer((obj) => ({ ...obj, time: obj.time + 1 }));
+          dispatch(increaseTimerCount());
         } else {
           clearInterval(interval);
         }
@@ -50,6 +65,7 @@ export const ShowTimer = ({ flag }) => {
             borderRadius={"8px"}
             onClick={(e) => {
               if (!timer.lock) {
+                dispatch(setAll({ ActiveFor: 30, TimerLock: true }));
                 setTimer((obj) => ({ ...obj, activeFor: 30, lock: true }));
                 setActive("one");
               }
@@ -70,6 +86,8 @@ export const ShowTimer = ({ flag }) => {
             bg={active == "two" ? "#F2A154" : ""}
             onClick={(e) => {
               if (!timer.lock) {
+                dispatch(setAll({ ActiveFor: 60, TimerLock: true }));
+
                 setTimer((obj) => ({ ...obj, activeFor: 60, lock: true }));
                 setActive("two");
               }
@@ -90,6 +108,8 @@ export const ShowTimer = ({ flag }) => {
             bg={active == "three" ? "#F47C7C" : ""}
             onClick={(e) => {
               if (!timer.lock) {
+                dispatch(setAll({ ActiveFor: 120, TimerLock: true }));
+
                 setTimer((obj) => ({ ...obj, activeFor: 120, lock: true }));
                 setActive("three");
               }

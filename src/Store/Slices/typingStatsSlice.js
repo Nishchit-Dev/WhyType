@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const typeStatSlice = createSlice({
   name: "TypingStats",
   initialState: {
-    typingActiveStatus: false,
     cursor: -1,
+    isTypingActive:false
   },
 
   reducers: {
@@ -17,8 +17,13 @@ export const typeStatSlice = createSlice({
       states.cursor = states.cursor - 1;
     },
     // changes typing status
-    setTypingActiveStatus: (states, action) => {
-      states.typingActiveStatus = !states.typingActiveStatus;
+    setTypingActiveStatus: (states,action) => {
+      states.isTypingActive = action.payload;
+      console.log("tpying status changed")
     },
   },
 });
+
+export const {increaseCounts,decreaseCounts,setTypingActiveStatus} = typeStatSlice.actions
+
+export default typeStatSlice.reducer
