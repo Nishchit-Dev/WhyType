@@ -546,6 +546,7 @@ function ShowText({ count, setCount }) {
         key={"Key0"}
         display={"flex"}
         flexDir={"row"}
+        alignItems={"center"}
         position={"relative"}
         // transform={("translateX(" + cursor + "px)").toString()}
         left={(cursor + "px").toString()}
@@ -563,7 +564,13 @@ function ShowText({ count, setCount }) {
               opacity={count >= i ? 0.7 : 0.2}
               alignItems={"center"}
               justifyContent={"center"}
-              fontSize={count == i ? "45px" : "42px"}
+              fontSize={{
+                md: count == i ? "30px" : "28px",
+                lg: count == i ? "35px" : "33px",
+                xl: count == i ? "40px" : "38px",
+                "2xl": count == i ? "45px" : "42px",
+                // "3xl": count == i ? "55px" : "53px",
+              }}
               fontWeight={count == i ? "bold" : "regular"}
               color={"black"}
               fontFamily={"JetBrains Mono"}
