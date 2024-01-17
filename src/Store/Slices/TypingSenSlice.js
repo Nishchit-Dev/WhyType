@@ -12,7 +12,8 @@ export const TypingSenctenceSlice = createSlice({
     setLetterArray: (states, action) => {
       if (action.payload.length > 0) {
         states.LetterToType = action.payload;
-        states.CharCount = action.payload.length();
+        states.CharCount = action.payload.length;
+        console.log(states.LetterToType)
       }
     },
     PushedTypedLetter: (states, action) => {

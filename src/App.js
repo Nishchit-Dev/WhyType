@@ -2,6 +2,7 @@ import {
   Center,
   ChakraProvider,
   Flex,
+  Img,
   Textarea,
   useEditable,
 } from "@chakra-ui/react";
@@ -15,458 +16,20 @@ import { ChakraCustomTheme } from "./ChakraTheme/ChakraTheme";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  setTypingActiveStatus,
-  typeStatSlice,
-} from "./Store/Slices/typingStatsSlice";
-import {
   PopTypedLetter,
   PushedTypedLetter,
+  setLetterArray,
 } from "./Store/Slices/TypingSenSlice";
 import { HeaderNav } from "./Header/Header";
-function fillSpace(arr) {
-  let newArray = arr.map((element) =>
-    element === " " ? `\u2000` : element.toLowerCase()
-  );
+import { paragraph } from "txtgen";
+import {
+  ConvertInToArray,
+  fillSpace,
+  keepOnlyAlphabets,
+  keepOnlyAlphabetsAndSpace,
+} from "./Helper/helper";
 
-  return newArray;
-}
-let word_array = [
-  "O",
-  "n",
-  "c",
-  "e",
-  " ",
-  "u",
-  "p",
-  "o",
-  "n",
-  " ",
-  "a",
-  " ",
-  "t",
-  "i",
-  "m",
-  "e",
-  " ",
-  "i",
-  "n",
-  " ",
-  "a",
-  " ",
-  "q",
-  "u",
-  "a",
-  "i",
-  "n",
-  "t",
-  " ",
-  "l",
-  "i",
-  "t",
-  "t",
-  "l",
-  "e",
-  " ",
-  "v",
-  "i",
-  "l",
-  "l",
-  "a",
-  "g",
-  "e",
-  " ",
-  "n",
-  "e",
-  "s",
-  "t",
-  "l",
-  "e",
-  "d",
-  " ",
-  "b",
-  "e",
-  "t",
-  "w",
-  "e",
-  "e",
-  "n",
-  " ",
-  "r",
-  "o",
-  "l",
-  "l",
-  "i",
-  "n",
-  "g",
-  " ",
-  "h",
-  "i",
-  "l",
-  "l",
-  "s",
-  " ",
-  "a",
-  "n",
-  "d",
-  " ",
-  "l",
-  "u",
-  "s",
-  "h",
-  " ",
-  "f",
-  "o",
-  "r",
-  "e",
-  "s",
-  "t",
-  "s",
-
-  " ",
-  "t",
-  "h",
-  "e",
-  "r",
-  "e",
-  " ",
-  "l",
-  "i",
-  "v",
-  "e",
-  "d",
-  " ",
-  "a",
-  " ",
-  "c",
-  "u",
-  "r",
-  "i",
-  "o",
-  "u",
-  "s",
-  " ",
-  "y",
-  "o",
-  "u",
-  "n",
-  "g",
-  " ",
-  "g",
-  "i",
-  "r",
-  "l",
-  " ",
-  "n",
-  "a",
-  "m",
-  "e",
-  "d",
-  " ",
-  "L",
-  "i",
-  "l",
-  "y",
-
-  " ",
-  "L",
-  "i",
-  "l",
-  "y",
-  " ",
-  "h",
-  "a",
-  "d",
-  " ",
-  "a",
-  "n",
-  " ",
-  "i",
-  "n",
-  "s",
-  "a",
-  "t",
-  "i",
-  "a",
-  "b",
-  "l",
-  "e",
-  " ",
-  "a",
-  "p",
-  "p",
-  "e",
-  "t",
-  "i",
-  "t",
-  "e",
-  " ",
-  "f",
-  "o",
-  "r",
-  " ",
-  "a",
-  "d",
-  "v",
-  "e",
-  "n",
-  "t",
-  "u",
-  "r",
-  "e",
-  " ",
-  "a",
-  "n",
-  "d",
-  " ",
-  "a",
-  " ",
-  "h",
-  "e",
-  "a",
-  "r",
-  "t",
-  " ",
-  "f",
-  "u",
-  "l",
-  "l",
-  " ",
-  "o",
-  "f",
-  " ",
-  "d",
-  "r",
-  "e",
-  "a",
-  "m",
-  "s",
-
-  "O",
-  "n",
-  "e",
-  " ",
-  "s",
-  "u",
-  "n",
-  "n",
-  "y",
-  " ",
-  "m",
-  "o",
-  "r",
-  "n",
-  "i",
-  "n",
-  "g",
-
-  " ",
-  "L",
-  "i",
-  "l",
-  "y",
-  " ",
-  "d",
-  "i",
-  "s",
-  "c",
-  "o",
-  "v",
-  "e",
-  "r",
-  "e",
-  "d",
-  " ",
-  "a",
-  " ",
-  "m",
-  "y",
-  "s",
-  "t",
-  "e",
-  "r",
-  "i",
-  "o",
-  "u",
-  "s",
-
-  " ",
-  "d",
-  "u",
-  "s",
-  "t",
-  "y",
-  " ",
-  "b",
-  "o",
-  "o",
-  "k",
-  " ",
-  "t",
-  "u",
-  "c",
-  "k",
-  "e",
-  "d",
-  " ",
-  "a",
-  "w",
-  "a",
-  "y",
-  " ",
-  "i",
-  "n",
-  " ",
-  "t",
-  "h",
-  "e",
-  " ",
-  "c",
-  "o",
-  "r",
-  "n",
-  "e",
-  "r",
-  " ",
-  "o",
-  "f",
-  " ",
-  "t",
-  "h",
-  "e",
-  " ",
-  "v",
-  "i",
-  "l",
-  "l",
-  "a",
-  "g",
-  "e",
-  " ",
-  "l",
-  "i",
-  "b",
-  "r",
-  "a",
-  "r",
-  "y",
-
-  " ",
-  "T",
-  "h",
-  "e",
-  " ",
-  "b",
-  "o",
-  "o",
-  "k",
-
-  " ",
-  "a",
-  "d",
-  "o",
-  "r",
-  "n",
-  "e",
-  "d",
-  " ",
-  "w",
-  "i",
-  "t",
-  "h",
-  " ",
-  "a",
-  " ",
-  "f",
-  "a",
-  "d",
-  "e",
-  "d",
-  " ",
-  "l",
-  "e",
-  "a",
-  "t",
-  "h",
-  "e",
-  "r",
-  " ",
-  "c",
-  "o",
-  "v",
-  "e",
-  "r",
-
-  " ",
-  "b",
-  "e",
-  "c",
-  "k",
-  "o",
-  "n",
-  "e",
-  "d",
-  " ",
-  "h",
-  "e",
-  "r",
-  " ",
-  "w",
-  "i",
-  "t",
-  "h",
-  " ",
-  "p",
-  "r",
-  "o",
-  "m",
-  "i",
-  "s",
-  "e",
-  "s",
-  " ",
-  "o",
-  "f",
-  " ",
-  "m",
-  "a",
-  "g",
-  "i",
-  "c",
-  "a",
-  "l",
-  " ",
-  "r",
-  "e",
-  "a",
-  "l",
-  "m",
-  "s",
-  " ",
-  "a",
-  "n",
-  "d",
-  " ",
-  "e",
-  "n",
-  "c",
-  "h",
-  "a",
-  "n",
-  "t",
-  "e",
-  "d",
-  " ",
-  "l",
-  "a",
-  "n",
-  "d",
-  "s",
-
-  " ",
-  "U",
-  "n",
-];
-function ShowText({ count, setCount }) {
+function ShowText({ count, setCount, word_array }) {
   const TypingStat = useSelector((states) => {
     return states.typeStatsReducer;
   });
@@ -560,6 +123,13 @@ function ShowText({ count, setCount }) {
   }, [count, cursor]);
   return (
     <>
+      <Img
+        src={"/fade-text-left.png"}
+        position={"absolute"}
+        zIndex={999}
+        left={"-2px"}
+        height={"100px"}
+      />
       <Box
         className="box"
         key={"Key0"}
@@ -600,19 +170,40 @@ function ShowText({ count, setCount }) {
           );
         })}
       </Box>
+      <Img
+        src={"/fade-text-right.png"}
+        position={"absolute"}
+        zIndex={999}
+        height={"100px"}
+        right={"0px"}
+        top={"0px"}
+      />
     </>
   );
 }
 
 function App() {
+  const dispatch = useDispatch();
   const [count, setCount] = useState(-1);
   const [timeLock, setTimeLock] = useState(false);
+  const word_array = useSelector((states) => {
+    return states.TypedSentence.LetterToType;
+  });
+  useEffect(() => {
+    let _paragraph = paragraph(3);
+    _paragraph = ConvertInToArray(_paragraph);
+    _paragraph = keepOnlyAlphabetsAndSpace(_paragraph);
+    console.log(_paragraph);
+    dispatch(setLetterArray(_paragraph));
+  }, []);
 
   useEffect(() => {
-    if (count != -1 && !timeLock) {
-      setTimeLock(true);
+    if (word_array.length > 0) {
+      if (count != -1 && !timeLock) {
+        setTimeLock(true);
 
-      console.log("set false");
+        console.log("set false");
+      }
     }
   }, [count]);
   return (
@@ -632,18 +223,29 @@ function App() {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <ShowTimer flag={timeLock} />
+              {word_array.length > 0 ? (
+                <>
+                  <ShowTimer flag={timeLock} />
 
-              <ShowCurrentCharacter arr={word_array} count={count} />
+                  <ShowCurrentCharacter arr={word_array} count={count} />
+                </>
+              ) : (
+                <></>
+              )}
             </Flex>
           </Center>
-          <Center w="100%" h="100vh" alignItems={"start"}>
+          <Center w="70%" h="100vh" alignItems={"start"}>
             <Box overflow={"hidden"} m="10px" pos={"relative"}>
-              <ShowText
-                count={count}
-                setCount={setCount}
-                setTimeLock={setTimeLock}
-              />
+              {word_array.length > 0 ? (
+                <ShowText
+                  count={count}
+                  setCount={setCount}
+                  // setTimeLock={setTimeLock}
+                  word_array={word_array}
+                />
+              ) : (
+                <></>
+              )}
             </Box>
           </Center>
         </Center>

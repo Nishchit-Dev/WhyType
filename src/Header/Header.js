@@ -21,7 +21,7 @@ export const HeaderNav = () => {
               borderRadius={"9px"}
             >
               <Text
-                fontFamily={"poppins"}
+                fontFamily={"Poppins"}
                 fontSize={"28"}
                 fontWeight={"800"}
                 color={"white"}

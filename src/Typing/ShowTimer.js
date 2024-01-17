@@ -128,9 +128,7 @@ export const ShowTimer = ({ flag }) => {
           <Text color={"black"} fontFamily={"JetBrains Mono"} fontSize={"24px"}>
             Timer : {timer.time}
           </Text>
-          <Text color={"black"} fontFamily={"JetBrains Mono"} fontSize={"24px"}>
-            {timer.time >= timer.activeFor ? " Game Over" : ""}
-          </Text>
+         
         </Flex>
       </Flex>
     </>
