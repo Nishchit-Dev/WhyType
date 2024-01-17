@@ -57,7 +57,7 @@ export const ResultComponent = () => {
 const ResultModal = ({ isOpen, onClose, results }) => {
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} closeOnEsc={false} closeOnOverlayClick={false}>
+      <Modal isOpen={isOpen} onClose={onClose} closeOnEsc={false} closeOnOverlayClick={false} returnFocusOnClose={false} trapFocus={false}>
         <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(3px) " />
         <ModalContent top={"25vh"}>
           <ModalHeader fontFamily={"Poppins"} fontSize={"24"}>

@@ -28,7 +28,7 @@ const convertCharsToWords = (CharArray = []) => {
 const Algo = (Length, stats) => {
   let totalWords = Length;
   console.log(totalWords);
-  let minutesInSeconds = (stats.ActiveFor + 1) / 60;
+  let minutesInSeconds = (stats.ActiveFor ) / 60;
   console.log(minutesInSeconds);
 
   let wpm = totalWords / minutesInSeconds;
