@@ -13,7 +13,7 @@ export const TypingSenctenceSlice = createSlice({
       if (action.payload.length > 0) {
         states.LetterToType = action.payload;
         states.CharCount = action.payload.length;
-        console.log(states.LetterToType)
+        console.log(states.LetterToType);
       }
     },
     PushedTypedLetter: (states, action) => {
@@ -22,9 +22,19 @@ export const TypingSenctenceSlice = createSlice({
     PopTypedLetter: (states, action) => {
       states.TypedLetter.pop();
     },
+    setRestAllTypingSentences: (states) => {
+      states.LetterToType = [];
+      states.TypedLetter = [];
+      states.CharCount = 0;
+    },
   },
 });
 
-export const { setLetterArray,PushedTypedLetter,PopTypedLetter } = TypingSenctenceSlice.actions;
+export const {
+  setLetterArray,
+  PushedTypedLetter,
+  PopTypedLetter,
+  setRestAllTypingSentences,
+} = TypingSenctenceSlice.actions;
 
 export default TypingSenctenceSlice.reducer;
