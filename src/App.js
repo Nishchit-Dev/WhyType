@@ -74,9 +74,9 @@ function App() {
           <Center
             justifyContent={"end"}
             alignItems={"flex-end"}
-            h="200px"
+            // h="200px"
           ></Center>
-          <Center h="70vh" justifyContent={"end"} alignItems={"flex-end"}>
+          <Center  justifyContent={"end"} alignItems={"flex-end"}>
             <Flex
               flexDirection={"column"}
               justifyContent={"center"}
@@ -93,7 +93,7 @@ function App() {
               )}
             </Flex>
           </Center>
-          <Center w="70%" h="100vh" alignItems={"start"}>
+          <Center w="70%"alignItems={"start"} marginTop={"30px"}>
             <Box overflow={"hidden"} m="10px" pos={"relative"}>
               {word_array.length > 0 ? (
                 <ShowText

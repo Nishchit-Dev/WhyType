@@ -1,4 +1,4 @@
-import { Center, Flex, Kbd } from "@chakra-ui/react";
+import { Box, Center, Flex, Kbd, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useResetHook } from "../CustomHook/CustomHooks";
@@ -35,10 +35,40 @@ export const ShortCutKey = () => {
   }, [cursor]);
 
   return (
-    <Center width={"100%"}>
-      <span>
-        <Kbd>Ctrl</Kbd> + <Kbd>Alt</Kbd> + <Kbd>K</Kbd>
-      </span>
+    <Center
+      width={"100%"}
+      marginTop={"30px"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      textAlign={"center"}
+      display={"flex"}
+    >
+      <Box
+        opacity={0.6}
+        alignItems={"center"}
+        textAlign={"center"}
+        display={"flex"}
+        textAlign="center"
+      >
+        <Kbd>ctrl</Kbd>
+        <Text textAlign={"center"}>
+          {"\u2000"}+{"\u2000"}
+        </Text>{" "}
+        <Kbd> alt </Kbd>{" "}
+        <Text>
+          {"\u2000"}+{"\u2000"}
+        </Text>{" "}
+        <Kbd>k</Kbd>
+      </Box>
+      <Text
+        fontFamily={"poppins"}
+        opacity={0.6}
+        fontWeight={"300"}
+        fontSize={"15px"}
+        textAlign={"center"}
+      >
+        {"\u2000"} - to reset
+      </Text>
     </Center>
   );
 };
