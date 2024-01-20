@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const TimerStatsSlice = createSlice({
   name: "TimerStats",
   initialState: {
-    timerCount: -1,
+    timerCount: 0,
     ActiveFor: 30,
     TimerLock: false,
     DisplayTimer: false,
@@ -30,7 +30,7 @@ export const TimerStatsSlice = createSlice({
       states.ActiveFor = 30;
       states.DisplayTimer = false;
       states.TimerLock = false;
-      states.timerCount = -1;
+      states.timerCount = 0;
     },
   },
 });

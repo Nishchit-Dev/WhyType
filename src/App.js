@@ -32,16 +32,17 @@ import {
 import { ShowText } from "./Typing/ShowText";
 import { setDisplayTimer } from "./Store/Slices/TimerStatsSlice";
 import { ShortCutKey } from "./ShortCut/ShortCut";
+import { useTimerOver } from "./CustomHook/useTimerOver";
 
 function App() {
   const dispatch = useDispatch();
   // const [count, setCount] = useState(-1);
   const count = useSelector((states) => {
-    console.log(states.typeStatsReducer.count)
+    console.log(states.typeStatsReducer.count);
     return states.typeStatsReducer.count;
   });
   const [timeLock, setTimeLock] = useState(false);
-
+  const isTimerOver = useTimerOver();
   const word_array = useSelector((states) => {
     return states.TypedSentence.LetterToType;
   });
@@ -60,6 +61,11 @@ function App() {
       }
     }
   }, [count]);
+  useEffect(() => {
+    if (isTimerOver) {
+      setTimeLock(false);
+    }
+  }, [isTimerOver]);
   return (
     <>
       <HeaderNav />
@@ -101,7 +107,7 @@ function App() {
               )}
             </Box>
           </Center>
-          <ShortCutKey/>
+          <ShortCutKey />
         </Center>
       </Box>
       <BuiltByDeveloper />

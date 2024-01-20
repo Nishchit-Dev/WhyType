@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useSlider } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ResultComponent } from "../Result/resultComponents";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,27 +16,35 @@ export const ShowTimer = ({ flag }) => {
     return states.TimerStatsReducer.DisplayTimer;
   });
   const dispatch = useDispatch();
-  const [timer, setTimer] = useState({
-    time: 0,
-    activeFor: 30,
-    lock: false,
+  // const [timer, setTimer] = useState({
+  //   time: 0,
+  //   activeFor: 30,
+  //   lock: false,
+  // });
+  const timer = useSelector((states) => {
+    console.log(states.TimerStatsReducer);
+    return states.TimerStatsReducer;
   });
   useEffect(() => {
     dispatch(setActiveFor(30));
-    if (!timer.lock) dispatch(setAll({ ActiveFor: 30, TimerLock: true }));
+    if (!timer.TimerLock) dispatch(setAll({ ActiveFor: 30, TimerLock: true }));
   }, []);
 
   useEffect(() => {
-    if (timer.time >= timer.activeFor) {
+    let interval;
+    if (timer.timerCount >= timer.ActiveFor) {
       dispatch(setTypingActiveStatus(true));
       dispatch(setDisplayTimer(false));
     }
-    if (flag && timer.time < timer.activeFor) {
-      const interval = setInterval(() => {
-        if (timer.time < timer.activeFor) {
-          setTimer((obj) => ({ ...obj, time: obj.time + 1 }));
+    if (flag && timer.timerCount < timer.ActiveFor) {
+      interval = setInterval(() => {
+        if (timer.timerCount < timer.ActiveFor) {
+          // setTimer((obj) => ({ ...obj, time: obj.time + 1 }));
           dispatch(increaseTimerCount());
         } else {
+          clearInterval(interval);
+        }
+        if (flag) {
           clearInterval(interval);
         }
       }, 1000);
@@ -72,7 +80,7 @@ export const ShowTimer = ({ flag }) => {
               onClick={(e) => {
                 if (!timer.lock) {
                   dispatch(setAll({ ActiveFor: 30, TimerLock: true }));
-                  setTimer((obj) => ({ ...obj, activeFor: 30, lock: true }));
+                  // setTimer((obj) => ({ ...obj, activeFor: 30, lock: true }));
                   setActive("one");
                 }
               }}
@@ -94,7 +102,7 @@ export const ShowTimer = ({ flag }) => {
                 if (!timer.lock) {
                   dispatch(setAll({ ActiveFor: 60, TimerLock: true }));
 
-                  setTimer((obj) => ({ ...obj, activeFor: 60, lock: true }));
+                  // setTimer((obj) => ({ ...obj, activeFor: 60, lock: true }));
                   setActive("two");
                 }
               }}
@@ -115,8 +123,7 @@ export const ShowTimer = ({ flag }) => {
               onClick={(e) => {
                 if (!timer.lock) {
                   dispatch(setAll({ ActiveFor: 120, TimerLock: true }));
-
-                  setTimer((obj) => ({ ...obj, activeFor: 120, lock: true }));
+                  // setTimer((obj) => ({ ...obj, activeFor: 120, lock: true }));
                   setActive("three");
                 }
               }}
@@ -135,7 +142,7 @@ export const ShowTimer = ({ flag }) => {
         )}
         <Flex width={"350px"} alignItems={"center"} justifyContent={"center"}>
           <Text color={"black"} fontFamily={"JetBrains Mono"} fontSize={"24px"}>
-            Timer : {timer.time}
+            Timer : {timer.timerCount}
           </Text>
         </Flex>
       </Flex>
