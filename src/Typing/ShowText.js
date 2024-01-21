@@ -5,11 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   PopTypedLetter,
+  PushIncorrectLetter,
   PushedTypedLetter,
 } from "../Store/Slices/TypingSenSlice";
 
 import { fillSpace } from "../Helper/helper";
-import { decreaseCounts, decreaseCursors, increaseCounts, increaseCursors } from "../Store/Slices/typingStatsSlice";
+import {
+  decreaseCounts,
+  decreaseCursors,
+  increaseCounts,
+  increaseCursors,
+} from "../Store/Slices/typingStatsSlice";
 
 export function ShowText({ count, word_array }) {
   const TypingStat = useSelector((states) => {
@@ -18,10 +24,9 @@ export function ShowText({ count, word_array }) {
   const dispatch = useDispatch();
   const [RestFlag, setResetFlag] = useState(false);
   // const [cursor, setCursor] = useState(650);
-  const cursor = useSelector(states=>{
-    console.log(states.typeStatsReducer.cursor)
-    return states.typeStatsReducer.cursor
-  })
+  const cursor = useSelector((states) => {
+    return states.typeStatsReducer.cursor;
+  });
 
   const MaxLimit = 650;
 
@@ -29,40 +34,34 @@ export function ShowText({ count, word_array }) {
 
   const increaseCurosr = () => {
     // setCursor((cursor) => cursor + 7);
-    dispatch(increaseCursors())
+    dispatch(increaseCursors());
   };
   const decreaseCurosr = () => {
     // setCursor((cursor) => cursor - 29);
-    dispatch(decreaseCursors())
-
+    dispatch(decreaseCursors());
   };
   const decreaseCount = () => {
     // setCount((count_) => count_ - 1);
-    dispatch(decreaseCounts())
-
+    dispatch(decreaseCounts());
   };
 
   const increaseCount = () => {
     // setCount((count_) => count_ + 1);
-    dispatch(increaseCounts())
-
+    dispatch(increaseCounts());
   };
 
   word_array = fillSpace(word_array);
-  useEffect(()=>{
-    if(RestFlag){
-      setResetFlag(false)
+  useEffect(() => {
+    if (RestFlag) {
+      setResetFlag(false);
     }
-  },[RestFlag])
+  }, [RestFlag]);
   useEffect(() => {
     const handleEvent = (event) => {
       // console.log("key -> ", event.key);
       // console.log("key -> ", event.altKey);
-      if (event.ctrlKey  && event.altKey && event.key === "k") {
+      if (event.ctrlKey && event.altKey && event.key === "k") {
         // Your custom logic when the key combination is pressed
-        console.log("Ctrl + Alt + R pressed");
-
-        console.log("Alt + R is pressed");
         setResetFlag(true);
         // setResetFlag(false);
       }
@@ -110,6 +109,7 @@ export function ShowText({ count, word_array }) {
                   decreaseCurosr();
                   dispatch(PushedTypedLetter(event.key));
                 } else {
+                  dispatch(PushIncorrectLetter(event.key));
                   document
                     .querySelectorAll(`#_${count + 1}`)
                     .forEach((element) => {
@@ -129,7 +129,7 @@ export function ShowText({ count, word_array }) {
     return () => {
       window.removeEventListener("keydown", handleEvent);
     };
-  }, [count, cursor,RestFlag]);
+  }, [count, cursor, RestFlag]);
   return (
     <>
       <Img

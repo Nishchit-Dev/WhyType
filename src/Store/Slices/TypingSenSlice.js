@@ -5,6 +5,7 @@ export const TypingSenctenceSlice = createSlice({
   initialState: {
     LetterToType: [],
     TypedLetter: [],
+    IncorrectLetter: [],
     CharCount: 0,
     Words: 0,
   },
@@ -13,7 +14,6 @@ export const TypingSenctenceSlice = createSlice({
       if (action.payload.length > 0) {
         states.LetterToType = action.payload;
         states.CharCount = action.payload.length;
-        console.log(states.LetterToType);
       }
     },
     PushedTypedLetter: (states, action) => {
@@ -27,6 +27,12 @@ export const TypingSenctenceSlice = createSlice({
       states.TypedLetter = [];
       states.CharCount = 0;
     },
+    PushIncorrectLetter: (states, action) => {
+      states.IncorrectLetter.push(action.payload);
+    },
+    PopIncorrectLetter: (states, action) => {
+      states.IncorrectLetter.push(action.payload);
+    },
   },
 });
 
@@ -35,6 +41,8 @@ export const {
   PushedTypedLetter,
   PopTypedLetter,
   setRestAllTypingSentences,
+  PushIncorrectLetter,
+  PopIncorrectLetter,
 } = TypingSenctenceSlice.actions;
 
 export default TypingSenctenceSlice.reducer;

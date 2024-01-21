@@ -7,15 +7,9 @@ export const useTimerOver = () => {
   });
   const [timeOverFlag, setTimeOverFlag] = useState(false);
   useEffect(() => {
-    console.log("timerCount : ", timerCount);
-    console.log("ActiveFor : ", ActiveFor);
-
-    if (timerCount + 1< ActiveFor) {
-      console.log("not over");
+    if (timerCount + 1 < ActiveFor) {
       setTimeOverFlag(false);
     } else {
-      console.log("over");
-
       setTimeOverFlag(true);
     }
   }, [timerCount, ActiveFor]);

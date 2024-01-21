@@ -24,9 +24,16 @@ export const ResultComponent = () => {
   const TypingStats = useSelector((states) => {
     return states.typeStatsReducer;
   });
+  const IncorrectLetter = useSelector((states) => {
+    return states.TypedSentence.IncorrectLetter;
+  });
   const TypedLettersArray = useSelector((states) => {
     return states.TypedSentence.TypedLetter;
   });
+  const LetterToType = useSelector((states) => {
+    return states.TypedSentence.LetterToType;
+  });
+
   const TimerStats = useSelector((states) => {
     return states.TimerStatsReducer;
   });
@@ -37,23 +44,25 @@ export const ResultComponent = () => {
   });
 
   useEffect(() => {
-    console.log("timer over");
-    console.log(TypedLettersArray.length > 0);
-    console.log(!flagOpen);
-    console.log(isTimerOver);
+    if (TypedLettersArray.length >= LetterToType.length) {
+      let res = result(TypedLettersArray, TimerStats, IncorrectLetter);
+      setResults({ wpm: res.wpm, accuracy: res.Accuracy });
+      dispatch(setRestAllTimerSettings());
+    }
+  }, [LetterToType, TypedLettersArray]);
 
+  useEffect(() => {
     if (TypedLettersArray.length > 0) {
       if (isTimerOver) {
-        console.log("condition is true time is over");
         setFlagOpen(!flagOpen);
-        let res = result(TypedLettersArray, TimerStats);
-        setResults({ wpm: res, accuracy: 0 });
+
+        let res = result(TypedLettersArray, TimerStats, IncorrectLetter);
+        setResults({ wpm: res.wpm, accuracy: res.Accuracy });
       }
     }
   }, [TypedLettersArray, isTimerOver]);
 
   const onClose = () => {
-    console.log("close");
     setFlagOpen(!flagOpen);
     dispatch(setRestAllTimerSettings());
   };
@@ -102,7 +111,19 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                 fontSize={"54"}
                 fontWeight={"700"}
               >
-                {results ? results.wpm.toFixed(3) : ""}
+                {results ? results.wpm.toFixed(2) : ""}
+              </Text>
+            </Box>
+            <Box>
+              <Text fontFamily={"JetBrains Mono"} fontSize={"24"}>
+                Accuracy
+              </Text>
+              <Text
+                fontFamily={"JetBrains Mono"}
+                fontSize={"54"}
+                fontWeight={"700"}
+              >
+                {results ? results.accuracy.toFixed(2)+"%": ""}
               </Text>
             </Box>
 

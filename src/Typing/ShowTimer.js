@@ -9,6 +9,7 @@ import {
   setAll,
   setDisplayTimer,
 } from "../Store/Slices/TimerStatsSlice";
+import { ShowResult } from "./ShowResult";
 
 export const ShowTimer = ({ flag }) => {
   const [active, setActive] = useState("one");
@@ -16,13 +17,7 @@ export const ShowTimer = ({ flag }) => {
     return states.TimerStatsReducer.DisplayTimer;
   });
   const dispatch = useDispatch();
-  // const [timer, setTimer] = useState({
-  //   time: 0,
-  //   activeFor: 30,
-  //   lock: false,
-  // });
   const timer = useSelector((states) => {
-    console.log(states.TimerStatsReducer);
     return states.TimerStatsReducer;
   });
   useEffect(() => {
@@ -53,7 +48,6 @@ export const ShowTimer = ({ flag }) => {
         clearInterval(interval);
       };
     }
-    console.log(flag);
   }, [flag, timer]);
 
   return (
@@ -64,87 +58,95 @@ export const ShowTimer = ({ flag }) => {
         alignItems={"center"}
         gap={"15px"}
       >
-        {!ActiveFlagForTimer ? (
-          <Flex
-            dir="row"
-            bg="#E7E6E1"
+        {/* {!ActiveFlagForTimer ? ( */}
+        <Flex
+          visibility={ActiveFlagForTimer ? "hidden" : "none"}
+          dir="row"
+          bg="#E7E6E1"
+          borderRadius={"8px"}
+          padding={"5px"}
+          gap={"10px"}
+        >
+          <Box
+            cursor={"pointer"}
+            padding="5px 10px"
+            // bg={active == "one" ? "#83B271" : ""}
+            opacity={active == "one" ? "1" : "0.5"}
+            _hover={{ opacity: "1" }}
             borderRadius={"8px"}
-            padding={"5px"}
-            gap={"10px"}
+            onClick={(e) => {
+              if (!timer.lock) {
+                dispatch(setAll({ ActiveFor: 30, TimerLock: true }));
+                // setTimer((obj) => ({ ...obj, activeFor: 30, lock: true }));
+                setActive("one");
+              }
+            }}
           >
-            <Box
-              cursor={"pointer"}
-              padding="5px 10px"
-              bg={active == "one" ? "#83B271" : ""}
-              borderRadius={"8px"}
-              onClick={(e) => {
-                if (!timer.lock) {
-                  dispatch(setAll({ ActiveFor: 30, TimerLock: true }));
-                  // setTimer((obj) => ({ ...obj, activeFor: 30, lock: true }));
-                  setActive("one");
-                }
-              }}
+            <Text
+              fontSize={"18px"}
+              color={"black"}
+              fontFamily={"JetBrains Mono"}
             >
-              <Text
-                fontSize={"18px"}
-                color={"black"}
-                fontFamily={"JetBrains Mono"}
-              >
-                30s
-              </Text>
-            </Box>
-            <Box
-              cursor={"pointer"}
-              padding="5px 10px"
-              borderRadius={"8px"}
-              bg={active == "two" ? "#F2A154" : ""}
-              onClick={(e) => {
-                if (!timer.lock) {
-                  dispatch(setAll({ ActiveFor: 60, TimerLock: true }));
+              30s
+            </Text>
+          </Box>
+          <Box
+            cursor={"pointer"}
+            padding="5px 10px"
+            borderRadius={"8px"}
+            bg={active == "two" ? "#F2A154" : ""}
+            opacity={active == "two" ? "1" : "0.5"}
+            _hover={{ opacity: "1" }}
+            onClick={(e) => {
+              if (!timer.lock) {
+                dispatch(setAll({ ActiveFor: 60, TimerLock: true }));
 
-                  // setTimer((obj) => ({ ...obj, activeFor: 60, lock: true }));
-                  setActive("two");
-                }
-              }}
+                // setTimer((obj) => ({ ...obj, activeFor: 60, lock: true }));
+                setActive("two");
+              }
+            }}
+          >
+            <Text
+              fontSize={"18px"}
+              color={"black"}
+              fontFamily={"JetBrains Mono"}
             >
-              <Text
-                fontSize={"18px"}
-                color={"black"}
-                fontFamily={"JetBrains Mono"}
-              >
-                60s
-              </Text>
-            </Box>
-            <Box
-              cursor={"pointer"}
-              padding="5px 10px"
-              borderRadius={"8px"}
-              bg={active == "three" ? "#F47C7C" : ""}
-              onClick={(e) => {
-                if (!timer.lock) {
-                  dispatch(setAll({ ActiveFor: 120, TimerLock: true }));
-                  // setTimer((obj) => ({ ...obj, activeFor: 120, lock: true }));
-                  setActive("three");
-                }
-              }}
+              60s
+            </Text>
+          </Box>
+          <Box
+            cursor={"pointer"}
+            padding="5px 10px"
+            borderRadius={"8px"}
+            bg={active == "three" ? "#F47C7C" : ""}
+            opacity={active == "three" ? "1" : "0.5"}
+            _hover={{ opacity: "1" }}
+            onClick={(e) => {
+              if (!timer.lock) {
+                dispatch(setAll({ ActiveFor: 120, TimerLock: true }));
+                // setTimer((obj) => ({ ...obj, activeFor: 120, lock: true }));
+                setActive("three");
+              }
+            }}
+          >
+            <Text
+              fontSize={"18px"}
+              color={"black"}
+              fontFamily={"JetBrains Mono"}
             >
-              <Text
-                fontSize={"18px"}
-                color={"black"}
-                fontFamily={"JetBrains Mono"}
-              >
-                120s
-              </Text>
-            </Box>
-          </Flex>
-        ) : (
-          <></>
-        )}
+              120s
+            </Text>
+          </Box>
+        </Flex>
+        {/* ) : ( */}
+        <></>
+        {/* )} */}
         <Flex width={"350px"} alignItems={"center"} justifyContent={"center"}>
           <Text color={"black"} fontFamily={"JetBrains Mono"} fontSize={"24px"}>
             Timer : {timer.timerCount}
           </Text>
         </Flex>
+        <ShowResult visibility={ActiveFlagForTimer} />
       </Flex>
     </>
   );

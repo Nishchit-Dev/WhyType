@@ -12,7 +12,6 @@ import { useEffect } from "react";
 export const useResetHook = (condition) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(condition)
     if (condition) {
       // reset all the Global states
       dispatch(setRestAllTimerSettings());

@@ -18,11 +18,8 @@ export const ShortCutKey = () => {
 
   useEffect(() => {
     const handleEvent = (event) => {
-      if (event.ctrlKey && event.altKey && event.key === "k") {
+      if (event.ctrlKey && event.altKey && event.key === "r") {
         // Your custom logic when the key combination is pressed
-        console.log("Ctrl + Alt + R pressed");
-
-        console.log("Alt + R is pressed");
         setResetFlag(true);
         // setResetFlag(false);
       }
@@ -48,7 +45,7 @@ export const ShortCutKey = () => {
         alignItems={"center"}
         textAlign={"center"}
         display={"flex"}
-        textAlign="center"
+        justifyContent={"center"}
       >
         <Kbd>ctrl</Kbd>
         <Text textAlign={"center"}>
@@ -58,7 +55,7 @@ export const ShortCutKey = () => {
         <Text>
           {"\u2000"}+{"\u2000"}
         </Text>{" "}
-        <Kbd>k</Kbd>
+        <Kbd>r</Kbd>
       </Box>
       <Text
         fontFamily={"poppins"}

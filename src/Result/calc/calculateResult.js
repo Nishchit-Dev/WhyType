@@ -1,6 +1,6 @@
 const convertCharsToWords = (CharArray = []) => {
+  let resultArray = [];
   if (CharArray.length > 0) {
-    let resultArray = [];
     let currentWord = "";
 
     for (let char of CharArray) {
@@ -23,26 +23,39 @@ const convertCharsToWords = (CharArray = []) => {
     // Push the last word if it exists (after the last space)
     return resultArray;
   }
+  return result;
 };
 
-const Algo = (Length, stats) => {
-  let totalWords = Length;
-  console.log(totalWords);
-  let minutesInSeconds = (stats.ActiveFor ) / 60;
-  console.log(minutesInSeconds);
+const Algo = (Length, stats, IncorrectLetter = 0, TotalCharacter) => {
+  // let totalWords = Length;
+  // console.info("TotalChar", TotalCharacter);
+  // console.info("TotalWords", Length);
+  // console.info("TotalChar/words ", TotalCharacter / Length);
+  // console.info("TotalErrors", IncorrectLetter);
 
-  let wpm = totalWords / minutesInSeconds;
-  console.log(wpm);
+  // console.info(
+  //   "TotalChar/words - Erros ",
+  //   TotalCharacter / Length - IncorrectLetter
+  // );
+  // console.info(
+  //   "Accuracy: ",
+  //   100 - (IncorrectLetter / TotalCharacter).toFixed(4) * 100
+  // );
+  // console.info("WPM: ", (IncorrectLetter / totalWords).toFixed(4) * 100);
+  let Accuracy = 100 - (IncorrectLetter / TotalCharacter).toFixed(4) * 100;
+  let minutesInSeconds = stats.timerCount / 60;
 
-  return wpm;
+  let WPM = Length / minutesInSeconds;
+
+  return { Accuracy, wpm: WPM };
 };
 
-export const result = (TypedLetterArray, stats) => {
-  console.log(stats);
+export const result = (TypedLetterArray, stats, IncorrectLetter) => {
   let temp = TypedLetterArray.slice();
+  let TotalCharacter = temp.length;
   let arr = convertCharsToWords(temp);
-  console.log(arr);
-  const wpm = Algo(arr.length, stats);
+
+  let wpm = Algo(arr.length, stats, IncorrectLetter.length, TotalCharacter);
   console.log("wpm -> ", wpm);
   return wpm;
 };

@@ -38,7 +38,6 @@ function App() {
   const dispatch = useDispatch();
   // const [count, setCount] = useState(-1);
   const count = useSelector((states) => {
-    console.log(states.typeStatsReducer.count);
     return states.typeStatsReducer.count;
   });
   const [timeLock, setTimeLock] = useState(false);
@@ -48,7 +47,6 @@ function App() {
   });
   useEffect(() => {
     let _paragraph = GenerateSentence();
-    console.log(_paragraph);
     dispatch(setLetterArray(_paragraph));
   }, []);
 
@@ -57,7 +55,6 @@ function App() {
       if (count != -1 && !timeLock) {
         setTimeLock(true);
         dispatch(setDisplayTimer(true));
-        console.log("set false");
       }
     }
   }, [count]);
@@ -93,7 +90,7 @@ function App() {
               )}
             </Flex>
           </Center>
-          <Center w="70%"alignItems={"start"} marginTop={"30px"}>
+          <Center w="70%"alignItems={"start"} >
             <Box overflow={"hidden"} m="10px" pos={"relative"}>
               {word_array.length > 0 ? (
                 <ShowText
