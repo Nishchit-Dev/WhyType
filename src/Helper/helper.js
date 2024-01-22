@@ -27,6 +27,6 @@ export function SuperConvertorForArray(array) {
 }
 
 export function GenerateSentence() {
-  let _paragraph = paragraph(4);
+  let _paragraph = paragraph(8);
   return SuperConvertorForArray(_paragraph);
 }
