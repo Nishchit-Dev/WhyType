@@ -10,6 +10,7 @@ import {
   Text,
   Box,
   Center,
+  Flex,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -83,6 +84,9 @@ export const ResultComponent = () => {
 };
 
 const ResultModal = ({ isOpen, onClose, results }) => {
+  const _Text = useSelector((states) => {
+    return states.TypedSentence;
+  });
   return (
     <>
       <Modal
@@ -91,9 +95,10 @@ const ResultModal = ({ isOpen, onClose, results }) => {
         closeOnEsc={false}
         closeOnOverlayClick={false}
         returnFocusOnClose={false}
+        size={"lg"}
         trapFocus={false}
       >
-        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(3px) " />
+        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(3px)" />
         <ModalContent top={"25vh"}>
           <ModalHeader fontFamily={"Poppins"} fontSize={"24"}>
             ScoreBoard
@@ -103,28 +108,72 @@ const ResultModal = ({ isOpen, onClose, results }) => {
 
           <ModalBody>
             <Box>
-              <Text fontFamily={"JetBrains Mono"} fontSize={"24"}>
-                Wpm
-              </Text>
-              <Text
-                fontFamily={"JetBrains Mono"}
-                fontSize={"54"}
-                fontWeight={"700"}
-              >
-                {results ? results.wpm.toFixed(2) : ""}
-              </Text>
+              <Flex justifyContent={"space-between"} >
+                <Box>
+                  <Text fontFamily={"JetBrains Mono"} fontSize={"24"} opacity={"0.7"}>
+                    Wpm
+                  </Text>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"54"}
+                    fontWeight={"700"}
+                  >
+                    {results ? results.wpm.toFixed(2) : ""}
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontFamily={"JetBrains Mono"} fontSize={"24"} opacity={"0.7"}>
+                    Accuracy
+                  </Text>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"54"}
+                    fontWeight={"700"}
+                  >
+                    {results ? results.accuracy.toFixed(2) + "%" : ""}
+                  </Text>
+                </Box>
+              </Flex>
             </Box>
             <Box>
-              <Text fontFamily={"JetBrains Mono"} fontSize={"24"}>
-                Accuracy
-              </Text>
-              <Text
-                fontFamily={"JetBrains Mono"}
-                fontSize={"54"}
-                fontWeight={"700"}
-              >
-                {results ? results.accuracy.toFixed(2)+"%": ""}
-              </Text>
+              <Flex justifyContent={"space-between"} alignItems={"center"} wrap={"wrap"} rowGap={"20px"}>
+                <Box>
+                  <Text fontFamily={"JetBrains Mono"} fontSize={"18"} opacity={"0.7"}>
+                    Total Characters
+                  </Text>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"22"}
+                    fontWeight={"700"}
+                  >
+                    {_Text ? _Text.CharCount : "0"}
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontFamily={"JetBrains Mono"} fontSize={"18"} opacity={"0.7"}>
+                    Incorrect Characters
+                  </Text>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"22"}
+                    fontWeight={"700"}
+                  >
+                    {_Text ? _Text.IncorrectLetter.length : "0"}
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontFamily={"JetBrains Mono"} fontSize={"18"} opacity={"0.7"}>
+                    Characters Typed
+                  </Text>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"22"}
+                    fontWeight={"700"}
+                  >
+                    {_Text ? _Text.TypedLetter.length : "0"}
+                  </Text>
+                </Box>
+              </Flex>
             </Box>
 
             <Text fontFamily={"JetBrains Mono"} fontSize={"24"}></Text>
