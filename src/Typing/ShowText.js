@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  PopSeconds,
   PopTypedLetter,
   PushIncorrectLetter,
+  PushSeconds,
   PushedTypedLetter,
 } from "../Store/Slices/TypingSenSlice";
 
@@ -72,6 +74,7 @@ export function ShowText({ count, word_array }) {
               element.style.color = `Black`;
             });
             dispatch(PopTypedLetter());
+            dispatch(PopSeconds());
             increaseCurosr();
             decreaseCount();
           }
@@ -79,7 +82,7 @@ export function ShowText({ count, word_array }) {
           if (event.key.length === 1) {
             if (event.key == ` `) {
               // console.log("space press->", word_array[count + 1]);
-              if (word_array[count + 1] == "\u2000") {
+              if (word_array[count + 1] === "\u2000") {
                 dispatch(PushedTypedLetter(event.key));
 
                 increaseCount();
@@ -108,8 +111,10 @@ export function ShowText({ count, word_array }) {
                   // console.log(event.key);
                   decreaseCurosr();
                   dispatch(PushedTypedLetter(event.key));
+                  dispatch(PushSeconds(Date.now()));
                 } else {
                   dispatch(PushIncorrectLetter(event.key));
+
                   document
                     .querySelectorAll(`#_${count + 1}`)
                     .forEach((element) => {

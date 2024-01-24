@@ -18,6 +18,7 @@ import { result } from "./calc/calculateResult";
 import { ShowConfetti } from "./confetti";
 import { useTimerOver } from "../CustomHook/useTimerOver";
 import { setRestAllTimerSettings } from "../Store/Slices/TimerStatsSlice";
+import { ScoreGraph } from "./Graph/ShowGraph";
 
 export const ResultComponent = () => {
   const dispatch = useDispatch();
@@ -95,11 +96,11 @@ const ResultModal = ({ isOpen, onClose, results }) => {
         closeOnEsc={false}
         closeOnOverlayClick={false}
         returnFocusOnClose={false}
-        size={"lg"}
+        size={"6xl"}
         trapFocus={false}
       >
         <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(3px)" />
-        <ModalContent top={"25vh"}>
+        <ModalContent top={"10vh"}>
           <ModalHeader fontFamily={"Poppins"} fontSize={"24"}>
             ScoreBoard
           </ModalHeader>
@@ -107,10 +108,16 @@ const ResultModal = ({ isOpen, onClose, results }) => {
           <ModalCloseButton />
 
           <ModalBody>
-            <Box>
-              <Flex justifyContent={"space-between"} >
+            <Center alignItems={"center"} justifyContent={"center"}>
+              <ScoreGraph />
+
+              <Flex justifyContent={"space-evenly"} flexDir={"column"} marginY={"20px"}>
                 <Box>
-                  <Text fontFamily={"JetBrains Mono"} fontSize={"24"} opacity={"0.7"}>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"24"}
+                    opacity={"0.7"}
+                  >
                     Wpm
                   </Text>
                   <Text
@@ -122,7 +129,11 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                   </Text>
                 </Box>
                 <Box>
-                  <Text fontFamily={"JetBrains Mono"} fontSize={"24"} opacity={"0.7"}>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"24"}
+                    opacity={"0.7"}
+                  >
                     Accuracy
                   </Text>
                   <Text
@@ -134,11 +145,21 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                   </Text>
                 </Box>
               </Flex>
-            </Box>
-            <Box>
-              <Flex justifyContent={"space-between"} alignItems={"center"} wrap={"wrap"} rowGap={"20px"}>
+            </Center>
+
+            <Box marginTop={"20px"}>
+              <Flex
+                justifyContent={"space-evenly"}
+                alignItems={"center"}
+                wrap={"wrap"}
+                rowGap={"20px"}
+              >
                 <Box>
-                  <Text fontFamily={"JetBrains Mono"} fontSize={"18"} opacity={"0.7"}>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"18"}
+                    opacity={"0.7"}
+                  >
                     Total Characters
                   </Text>
                   <Text
@@ -150,7 +171,11 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                   </Text>
                 </Box>
                 <Box>
-                  <Text fontFamily={"JetBrains Mono"} fontSize={"18"} opacity={"0.7"}>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"18"}
+                    opacity={"0.7"}
+                  >
                     Incorrect Characters
                   </Text>
                   <Text
@@ -162,7 +187,11 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                   </Text>
                 </Box>
                 <Box>
-                  <Text fontFamily={"JetBrains Mono"} fontSize={"18"} opacity={"0.7"}>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"18"}
+                    opacity={"0.7"}
+                  >
                     Characters Typed
                   </Text>
                   <Text
@@ -175,8 +204,6 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                 </Box>
               </Flex>
             </Box>
-
-            <Text fontFamily={"JetBrains Mono"} fontSize={"24"}></Text>
           </ModalBody>
 
           <ModalFooter></ModalFooter>

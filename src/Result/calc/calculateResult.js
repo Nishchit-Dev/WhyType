@@ -49,6 +49,16 @@ const Algo = (Length, stats, IncorrectLetter = 0, TotalCharacter) => {
 
   return { Accuracy, wpm: WPM };
 };
+export const calculateTimeDifferences = (timestamps=[]) => {
+  if (timestamps.length == 0) return;
+  const differences = [];
+  for (let i = 0; i < timestamps.length - 1; i++) {
+    const timeDiff = timestamps[i + 1].data - timestamps[i].data;
+    differences.push(timeDiff/1000);
+  }
+  console.log(differences);
+  return differences;
+};
 
 export const result = (TypedLetterArray, stats, IncorrectLetter) => {
   let temp = TypedLetterArray.slice();
