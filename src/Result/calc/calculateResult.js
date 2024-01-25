@@ -27,21 +27,6 @@ const convertCharsToWords = (CharArray = []) => {
 };
 
 const Algo = (Length, stats, IncorrectLetter = 0, TotalCharacter) => {
-  // let totalWords = Length;
-  // console.info("TotalChar", TotalCharacter);
-  // console.info("TotalWords", Length);
-  // console.info("TotalChar/words ", TotalCharacter / Length);
-  // console.info("TotalErrors", IncorrectLetter);
-
-  // console.info(
-  //   "TotalChar/words - Erros ",
-  //   TotalCharacter / Length - IncorrectLetter
-  // );
-  // console.info(
-  //   "Accuracy: ",
-  //   100 - (IncorrectLetter / TotalCharacter).toFixed(4) * 100
-  // );
-  // console.info("WPM: ", (IncorrectLetter / totalWords).toFixed(4) * 100);
   let Accuracy = 100 - (IncorrectLetter / TotalCharacter).toFixed(4) * 100;
   let minutesInSeconds = stats.timerCount / 60;
 
@@ -49,12 +34,12 @@ const Algo = (Length, stats, IncorrectLetter = 0, TotalCharacter) => {
 
   return { Accuracy, wpm: WPM };
 };
-export const calculateTimeDifferences = (timestamps=[]) => {
+export const calculateTimeDifferences = (timestamps = []) => {
   if (timestamps.length == 0) return;
   const differences = [];
   for (let i = 0; i < timestamps.length - 1; i++) {
     const timeDiff = timestamps[i + 1].data - timestamps[i].data;
-    differences.push(timeDiff/1000);
+    differences.push(timeDiff / 1000);
   }
   console.log(differences);
   return differences;
@@ -68,4 +53,15 @@ export const result = (TypedLetterArray, stats, IncorrectLetter) => {
   let wpm = Algo(arr.length, stats, IncorrectLetter.length, TotalCharacter);
   console.log("wpm -> ", wpm);
   return wpm;
+};
+
+export const AvgTimePerChar = (charTimer = []) => {
+  console.log(charTimer)
+  if (charTimer.length == 0) return 0;
+  let AvgTime = 0;
+  charTimer.forEach((time) => {
+    AvgTime += time;
+  });
+  AvgTime = AvgTime / charTimer.length;
+  return AvgTime.toFixed(2);
 };

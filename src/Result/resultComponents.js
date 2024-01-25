@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { result } from "./calc/calculateResult";
+import { AvgTimePerChar, calculateTimeDifferences, result } from "./calc/calculateResult";
 import { ShowConfetti } from "./confetti";
 import { useTimerOver } from "../CustomHook/useTimerOver";
 import { setRestAllTimerSettings } from "../Store/Slices/TimerStatsSlice";
@@ -88,6 +88,16 @@ const ResultModal = ({ isOpen, onClose, results }) => {
   const _Text = useSelector((states) => {
     return states.TypedSentence;
   });
+
+  const [AvgTimer, setAvgTimer] = useState(0);
+
+  useEffect(() => {
+    console.log(_Text)
+    let tempTimeDifference = calculateTimeDifferences(_Text.SecondsWhenPress);
+    console.log(tempTimeDifference)
+    let tempAvgTimePerChar = AvgTimePerChar(tempTimeDifference);
+    setAvgTimer(tempAvgTimePerChar);
+  }, []);
   return (
     <>
       <Modal
@@ -111,7 +121,11 @@ const ResultModal = ({ isOpen, onClose, results }) => {
             <Center alignItems={"center"} justifyContent={"center"}>
               <ScoreGraph />
 
-              <Flex justifyContent={"space-evenly"} flexDir={"column"} marginY={"20px"}>
+              <Flex
+                justifyContent={"space-evenly"}
+                flexDir={"column"}
+                marginY={"20px"}
+              >
                 <Box>
                   <Text
                     fontFamily={"JetBrains Mono"}
@@ -201,6 +215,22 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                     fontWeight={"700"}
                   >
                     {_Text ? _Text.TypedLetter.length : "0"}
+                  </Text>
+                </Box>
+                <Box>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"18"}
+                    opacity={"0.7"}
+                  >
+                    Avg Seconds to Type Letter
+                  </Text>
+                  <Text
+                    fontFamily={"JetBrains Mono"}
+                    fontSize={"22"}
+                    fontWeight={"700"}
+                  >
+                    {AvgTimer ? AvgTimer : "0"}
                   </Text>
                 </Box>
               </Flex>
