@@ -33,6 +33,7 @@ import { ShowText } from "./Typing/ShowText";
 import { setDisplayTimer } from "./Store/Slices/TimerStatsSlice";
 import { ShortCutKey } from "./ShortCut/ShortCut";
 import { useTimerOver } from "./CustomHook/useTimerOver";
+import { ShowProgressBar } from "./Typing/showProgressBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -65,6 +66,7 @@ function App() {
   }, [isTimerOver]);
   return (
     <>
+      <ShowProgressBar />
       <HeaderNav />
       <Box>
         <Center flexDir={"column"} w="100%" h="97.7vh">
@@ -73,7 +75,7 @@ function App() {
             alignItems={"flex-end"}
             // h="200px"
           ></Center>
-          <Center  justifyContent={"end"} alignItems={"flex-end"}>
+          <Center justifyContent={"end"} alignItems={"flex-end"}>
             <Flex
               flexDirection={"column"}
               justifyContent={"center"}
@@ -90,7 +92,7 @@ function App() {
               )}
             </Flex>
           </Center>
-          <Center w="70%"alignItems={"start"} >
+          <Center w="70%" alignItems={"start"}>
             <Box overflow={"hidden"} m="10px" pos={"relative"}>
               {word_array.length > 0 ? (
                 <ShowText
