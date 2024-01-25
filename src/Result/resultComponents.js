@@ -124,6 +124,7 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                     fontFamily={"JetBrains Mono"}
                     fontSize={"54"}
                     fontWeight={"700"}
+                    color={"#FFA447"}
                   >
                     {results ? results.wpm.toFixed(2) : ""}
                   </Text>
