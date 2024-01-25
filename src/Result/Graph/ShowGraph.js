@@ -57,7 +57,7 @@ export const ScoreGraph = () => {
         <Tooltip />
         <Legend />
         <Brush endIndex={25}/>
-        <Line type="monotone" dataKey="time" stroke="#8884d8" strokeWidth={2} />
+        <Line type="monotone" dataKey="time" stroke="#FFA447" strokeWidth={2} />
       </LineChart>
     </>
   );
