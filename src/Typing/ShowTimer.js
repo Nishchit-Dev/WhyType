@@ -62,7 +62,7 @@ export const ShowTimer = ({ flag }) => {
         <Flex
           visibility={ActiveFlagForTimer ? "hidden" : "none"}
           dir="row"
-          bg="#E7E6E1"
+          bg="whitesmoke"
           borderRadius={"8px"}
           padding={"5px"}
           gap={"10px"}

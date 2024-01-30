@@ -126,7 +126,7 @@ const ResultModal = ({ isOpen, onClose, results }) => {
                 flexDir={"column"}
                 marginY={"20px"}
               >
-                <Box>
+                <Box> 
                   <Text
                     fontFamily={"JetBrains Mono"}
                     fontSize={"24"}

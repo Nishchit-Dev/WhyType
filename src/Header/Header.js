@@ -13,8 +13,7 @@ export const HeaderNav = () => {
           >
             <Box
               background={
-                "linear-gradient(-45deg,#FA8746, #EE6767 , #E272CA ,#00BCFF , #B14FFF,#C3B3B0)"
-              }
+                "#FFA447"}
               bgSize={"400% 400%"}
               animation={"gradient 15s ease infinite;"}
               p={"5px 20px"}
