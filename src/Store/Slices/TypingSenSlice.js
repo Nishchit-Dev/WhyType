@@ -6,7 +6,7 @@ export const TypingSenctenceSlice = createSlice({
     LetterToType: [],
     TypedLetter: [],
     IncorrectLetter: [],
-    SecondsWhenPress: [],
+    SecondsWhenPress: [0],
     CharCount: 0,
     Words: 0,
     StartedAt: 0,

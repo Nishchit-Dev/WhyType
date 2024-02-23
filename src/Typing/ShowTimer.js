@@ -27,8 +27,14 @@ export const ShowTimer = ({ flag }) => {
 
   useEffect(() => {
     let interval;
-    if (timer.timerCount >= timer.ActiveFor) {
+    console.log(timer)
+    if (timer.timerCount <= timer.ActiveFor) {
+      dispatch(setTypingActiveStatus(false));
+      console.log("stop")
+      dispatch(setDisplayTimer(true));
+    }else{
       dispatch(setTypingActiveStatus(true));
+      console.log("stop")
       dispatch(setDisplayTimer(false));
     }
     if (flag && timer.timerCount < timer.ActiveFor) {

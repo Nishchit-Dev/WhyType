@@ -35,6 +35,7 @@ const Algo = (Length, stats, IncorrectLetter = 0, TotalCharacter) => {
   return { Accuracy, wpm: WPM };
 };
 export const calculateTimeDifferences = (timestamps = []) => {
+  console.log(timestamps)
   if (timestamps.length == 0) return;
   const differences = [];
   for (let i = 0; i < timestamps.length - 1; i++) {
