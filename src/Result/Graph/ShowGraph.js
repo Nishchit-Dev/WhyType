@@ -26,16 +26,14 @@ export const ScoreGraph = () => {
     let _finalTime = calculateTimeDifferences(Seocnds);
     console.log(_finalTime);
 
-    let _finalChars = chars.map((items,i) =>(
-     {
+    let _finalChars = chars.map((items, i) => ({
       data: items,
-      time:_finalTime[i]
-    }))
+      time: _finalTime[i] != undefined ? _finalTime[i] : 0,
+    }));
     setFinalChars([..._finalChars]);
     setFinalTime([..._finalTime]);
     console.log(finalTime);
     console.log(_finalChars);
-
   }, []);
 
   return (
@@ -50,13 +48,13 @@ export const ScoreGraph = () => {
           left: 20,
           bottom: 5,
         }}
-      >
+      > 
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="data"  />
-        <YAxis dataKey="time"/>
+        <XAxis dataKey="data" name="date" />
+        <YAxis dataKey="time" name="time"/>
         <Tooltip />
         <Legend />
-        <Brush endIndex={25}/>
+        <Brush endIndex={25} dataKey="bar" height={30} stroke="#8884d8"  />
         <Line type="monotone" dataKey="time" stroke="#FFA447" strokeWidth={2} />
       </LineChart>
     </>

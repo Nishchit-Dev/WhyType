@@ -74,7 +74,7 @@ export function ShowText({ count, word_array }) {
               element.style.color = `Black`;
             });
             dispatch(PopTypedLetter());
-            // dispatch(PopSeconds());
+            dispatch(PopSeconds());
             increaseCurosr();
             decreaseCount();
           }

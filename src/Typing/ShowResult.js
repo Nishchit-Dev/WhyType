@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Box, Center, Text } from "@chakra-ui/react";
 import { result } from "../Result/calc/calculateResult";
 
-export const ShowResult = ({visibility}) => {
+export const ShowResult = ({ visibility }) => {
   const Timer = useSelector((states) => {
     return states.TimerStatsReducer.timerCount;
   });
@@ -23,16 +23,18 @@ export const ShowResult = ({visibility}) => {
   });
   const [newScore, setNewScore] = useState(0);
   useEffect(() => {
-    if (Timer % 2 == 0) {
-      let res = result(TypedLettersArray, TimerStats, IncorrectLetter);
-      setNewScore(res);
+    let res = result(TypedLettersArray, TimerStats, IncorrectLetter);
+    setNewScore(res);
 
-      console.log(res);
-    }
+    console.log(res);
   }, [Timer]);
   return (
     <>
-      <Center width={"fit-content"} visibility={!visibility?"hidden":"none"} hidden={!visibility}>
+      <Center
+        width={"fit-content"}
+        visibility={!visibility ? "hidden" : "none"}
+        hidden={!visibility}
+      >
         <Box width={"fit-content"}>
           <Text fontFamily={"JetBrains Mono"}>
             WPM: {parseFloat(newScore.wpm).toFixed(2)}
@@ -40,7 +42,7 @@ export const ShowResult = ({visibility}) => {
         </Box>
         <Box>
           <Text fontFamily={"JetBrains Mono"}>
-            Accuracy: { parseFloat(newScore.Accuracy).toFixed(2)}%
+            Accuracy: {parseFloat(newScore.Accuracy).toFixed(2)}%
           </Text>
         </Box>
       </Center>
